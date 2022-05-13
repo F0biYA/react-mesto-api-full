@@ -1,0 +1,21 @@
+.authorizationForm__submitButton {
+    height: 50px;
+    width: 358px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    margin-top: 216px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.authorizationForm__submitButton:hover {
+    opacity: .8;
+    cursor: pointer;
+    transition: opacity .5s ease-in-out;
+}

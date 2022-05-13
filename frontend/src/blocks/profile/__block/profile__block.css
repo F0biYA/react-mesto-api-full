@@ -1,0 +1,16 @@
+.profile__block {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: fit-content(120px) 1fr fit-content(150px);
+  width: 100%;
+  gap: 30px;
+}
+
+@media screen and (max-width:767px) {
+  .profile__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+}
