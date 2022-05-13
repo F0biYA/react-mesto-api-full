@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.putilin.student.nomoreparties.sbs';
 
 
  const handleResponse = (response) => {

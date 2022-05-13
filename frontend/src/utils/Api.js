@@ -90,9 +90,9 @@ class Api {
   }
 /* созадем и экспортируем экземпляр API класса*/
   export const api = new Api({
-    address: "https://mesto.nomoreparties.co/v1/cohort-35",
+    address: "https://api.putilin.student.nomoreparties.sbs",
     headers: {
-      authorization: "59fa2368-57bc-421b-8a9b-bec049dce68e",
+      // яндекс токкен authorization: "59fa2368-57bc-421b-8a9b-bec049dce68e",
       "Content-Type": "application/json",
     },
   });
