@@ -44,6 +44,8 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleCardClick = (card) => setSelectedCard(card);
 
+  const token = localStorage.getItem("jwt");
+
   /*получаю карточки с сервера*/
   useEffect(() => {
     if (loggedIn) {
@@ -160,8 +162,7 @@ function App() {
   }
 
   /*функция проверки токена */
-  function tokenCheck() {
-    const token = localStorage.getItem('token');
+ const tokenCheck = () => {
     if (token) {
       auth.getContent(token)
         .then((res) => {
@@ -197,8 +198,8 @@ function App() {
 
   /*эффект для проверки токена*/
   useEffect(() => {
-    tokenCheck()
-  }, [tokenCheck]);
+    tokenCheck();
+  }, []);
 
   return (
     /*обертываем весь контейнер в провайдер и передаем значение текущей переменной*/
