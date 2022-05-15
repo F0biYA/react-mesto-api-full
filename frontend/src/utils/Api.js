@@ -1,7 +1,7 @@
 class Api {
-    constructor({ address }) {
+    constructor({ address, headers }) {
       this._address = address;
-      //this._headers = headers;
+      this._headers = headers;
     }
     /*приватный метод проверки ответа сервера*/
     _handleResponse(response) {
@@ -10,13 +10,10 @@ class Api {
     }
   
     /*метод закгрузки информации о пользователе с сервера (GET)*/
-    getUserInfo(token) {
+    getUserInfo() {
       return fetch(`${this._address}/users/me`, {
         method: 'GET',
-        headers: {        
-          'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
       })
         .then((response) => this._handleResponse(response));
     }
@@ -25,10 +22,7 @@ class Api {
     getServerCards() {
       return fetch(`${this._address}/cards`, {
         method: 'GET',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
       })
         .then((response) => this._handleResponse(response));
     }
@@ -37,10 +31,7 @@ class Api {
     patchUserInfo(data) {
       return fetch(`${this._address}/users/me`, {
         method: 'PATCH',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
         body: JSON.stringify({
           name: data.name,
           about: data.about,
@@ -53,10 +44,7 @@ class Api {
     postCard(card) {
       return fetch(`${this._address}/cards`, {
         method: 'POST',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
         body: JSON.stringify(card),
       })
         .then((response) => this._handleResponse(response));
@@ -66,10 +54,7 @@ class Api {
     deleteCard(cardId) {
       return fetch(`${this._address}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
       })
         .then((response) => this._handleResponse(response));
     }
@@ -79,10 +64,7 @@ class Api {
     putLike(cardId) {
       return fetch(`${this._address}/cards/${cardId}/likes`, {
         method: 'PUT',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
       })
         .then((response) => this._handleResponse(response));
     }
@@ -91,10 +73,7 @@ class Api {
     deleteLike(cardId) {
       return fetch(`${this._address}/cards/${cardId}/likes`, {
         method: 'DELETE',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
       })
         .then((response) => this._handleResponse(response));
     }
@@ -103,10 +82,7 @@ class Api {
     patchAvatar(avatarLink) {
       return fetch(`${this._address}/users/me/avatar`, {
         method: 'PATCH',
-        headers: {        
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
+        headers: this._headers,
         body: JSON.stringify({ avatar: avatarLink }),
       })
         .then((response) => this._handleResponse(response));
@@ -114,9 +90,9 @@ class Api {
   }
 /* созадем и экспортируем экземпляр API класса*/
   export const api = new Api({
-    address: "https://api.putilin.student.nomoreparties.sbs",
-    // headers: {
-    //   // яндекс токкен authorization: "59fa2368-57bc-421b-8a9b-bec049dce68e",
-    //   "Content-Type": "application/json",
-    // },
+    address: "https://mesto.nomoreparties.co/v1/cohort-35",
+    headers: {
+      authorization: "59fa2368-57bc-421b-8a9b-bec049dce68e",
+      "Content-Type": "application/json",
+    },
   });
