@@ -161,9 +161,9 @@ function App() {
 
   /*функция проверки токена */
   function tokenCheck() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth.getContent(token)
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
         .then((res) => {
           if (res) {
             setLoggedIn(true);

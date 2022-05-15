@@ -8,7 +8,7 @@ const ForbiddenError = require('../errors/forbiddenError');
 /* найти все карточки */
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => next(err));
 };
 
