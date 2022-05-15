@@ -7,6 +7,8 @@ function Main({ cards, onCardClick, onCardLike, onCardDelete, onEditProfile, onA
     const currentUser = useContext(CurrentUserContext);
 
     return (
+        console.log(currentUser),
+        console.log(currentUser),
         <main className="content">
             <section className="profile">
                 <div className="profile__block">

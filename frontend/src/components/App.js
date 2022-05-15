@@ -44,27 +44,34 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleCardClick = (card) => setSelectedCard(card);
 
-  const token = localStorage.getItem("jwt");
+  //const token = localStorage.getItem("jwt");
 
-  /*получаю карточки с сервера*/
-  useEffect(() => {
-    if (loggedIn) {
-      api.getServerCards()
-        .then((cardsArray) => {
-          setCards(cardsArray);
-        })
-        .catch((err) => {
-          console.log(`Невозможно отобразить карточки с сервера ${err}`);
-        })
-    }
-  }, [loggedIn])
+  // /*получаю карточки с сервера*/
+  // useEffect(() => {
+  //   console.log(loggedIn)
+  //   //console.log(token)
+  //   if (loggedIn) {
+  //     const token = localStorage.getItem('token');
+  //     console.log(token);
+  //     api.getServerCards(token)
+  //       .then((cardsArray) => {
+  //         setCards(cardsArray);
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Невозможно отобразить карточки с сервера ${err}`);
+  //       })
+  //   }
+  // }, [loggedIn])
 
 
   /*получаю информацию о профиле с сервера*/
   useEffect(() => {
+
     if (loggedIn) {
-      api.getUserInfo()
+      const token = localStorage.getItem('token')
+      api.getUserInfo(token)
         .then((userInfoObject) => {
+          console.log(userInfoObject)
           setCurrentUser(userInfoObject)
         })
         .catch((err) => {
@@ -72,6 +79,8 @@ function App() {
         });
     }
   }, [loggedIn])
+
+/* /*   /*эффект для проверки токена*/
 
 
   /*функция изменения данных в профиле*/
@@ -126,7 +135,7 @@ function App() {
       .catch((err) => {
         console.log(`Невозможно удалить карточку: ${err}`);
       })
-  }
+  } 
   /*функция добавления карточки*/
   function handleAddPlace(card) {
     api.postCard(card)
@@ -143,8 +152,11 @@ function App() {
   function handleLogin(email, password) {
     return auth.authorize(email, password)
       .then((data) => {
+        console.log(data.token);
         if (data.token) {
           localStorage.setItem('token', data.token);
+          console.log(localStorage);
+          console.log(data.token);
           setLoggedIn(true);
           history.push('/');
         }
@@ -158,15 +170,19 @@ function App() {
 
   /*функция выхода и удаления токена (перенесена из header)*/
   function signOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("jwt");
   }
 
   /*функция проверки токена */
  const tokenCheck = () => {
+  const token = localStorage.getItem('token');
+
     if (token) {
+      console.log('токент есть 177')
       auth.getContent(token)
         .then((res) => {
           if (res) {
+            console.log('получили контент')
             setLoggedIn(true);
             history.push('/');
             setEmail(res.data.email);
@@ -177,7 +193,12 @@ function App() {
           console.log(err)
         });
     }
-  }
+  };
+
+  useEffect(() => {
+    tokenCheck();
+  }, [tokenCheck]);
+
   /*функция регистрации с всплывающим окном статуса регистрации, перенесно из Register */
   function handleRegister(email, password) {
     return auth.register(email, password)
@@ -196,10 +217,7 @@ function App() {
     setIsInfoPopupOpen(false);
   }
 
-  /*эффект для проверки токена*/
-  useEffect(() => {
-    tokenCheck();
-  }, []);
+
 
   return (
     /*обертываем весь контейнер в провайдер и передаем значение текущей переменной*/
