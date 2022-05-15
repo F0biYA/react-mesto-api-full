@@ -12,7 +12,7 @@ const UnauthorizedError = require('../errors/unauthorizedError');
 /* возвращаерт всех юзеров (find) */
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send(users))
+    .then((users) => res.send({ data: users }))
     .catch(next);
 };
 
@@ -22,12 +22,12 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
       } else {
-        res.status(200).send(user);
+        res.status(200).send({ data: user });
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Некорректные данные'));
+        next(new BadRequestError('Некорректные'));
       } else {
         next(err);
       }
@@ -59,11 +59,11 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then(() => res.send(
-      {
+    .then(() => res.send({
+      data: {
         name, about, avatar, email,
       },
-    ))
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
@@ -117,7 +117,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
       }
-      res.status(200).send({ user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
