@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.putilin.student.nomoreparties.sbs';
 
 
  const handleResponse = (response) => {
@@ -14,7 +14,7 @@ export const BASE_URL = 'https://auth.nomoreparties.co';
       throw error;
     })
   }
-
+/* регистрируюсь на серевер */
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -27,6 +27,7 @@ export const register = (email, password) => {
     .then(handleResponse)
 };
 
+/* делаю авторизацию на сервере*/
 export const authorize = (email, password) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
@@ -38,8 +39,7 @@ export const authorize = (email, password) => {
     })
     .then(handleResponse)
 };
-
-
+/*получаю токен для авторизации на закрытое содержимое */
 export const getContent = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',

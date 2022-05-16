@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Link, Route } from 'react-router-dom';
 
 function Header(props) {
-
     return <header className="header">
         <div className="header__logo">
         </div>

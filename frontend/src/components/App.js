@@ -44,6 +44,25 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleCardClick = (card) => setSelectedCard(card);
 
+  /* проверяю токен при любых изенениях*/
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            history.push('/');
+            setEmail(res.email);
+          }
+        })
+        .catch(err => {
+          setLoggedIn(false);
+          console.log(err)
+        });
+    }
+  });
+
   /*получаю карточки с сервера*/
   useEffect(() => {
     if (loggedIn) {
@@ -74,7 +93,6 @@ function App() {
 
   /*функция изменения данных в профиле*/
   function handleUpdateUser(data) {
-    console.log(data);
     api.patchUserInfo(data)
       .then((userInfoObject) => {
         setCurrentUser(userInfoObject)
@@ -97,7 +115,7 @@ function App() {
   }
   /*функция постановки/снятия лайка*/
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     isLiked
       ? api.deleteLike(card._id)
@@ -142,7 +160,7 @@ function App() {
     return auth.authorize(email, password)
       .then((data) => {
         if (data.token) {
-          localStorage.setItem('token', data.token);
+          localStorage.setItem('jwt', data.token);
           setLoggedIn(true);
           history.push('/');
         }
@@ -156,11 +174,10 @@ function App() {
 
   /*функция выхода и удаления токена (перенесена из header)*/
   function signOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
   }
 
-  /*функция проверки токена */
-  function tokenCheck() {
+  useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.getContent(jwt)
@@ -168,7 +185,7 @@ function App() {
           if (res) {
             setLoggedIn(true);
             history.push('/');
-            setEmail(res.data.email);
+            setEmail(res.email);
           }
         })
         .catch(err => {
@@ -176,7 +193,8 @@ function App() {
           console.log(err)
         });
     }
-  }
+  });
+
   /*функция регистрации с всплывающим окном статуса регистрации, перенесно из Register */
   function handleRegister(email, password) {
     return auth.register(email, password)
@@ -195,10 +213,7 @@ function App() {
     setIsInfoPopupOpen(false);
   }
 
-  /*эффект для проверки токена*/
-  useEffect(() => {
-    tokenCheck()
-  }, [tokenCheck]);
+
 
   return (
     /*обертываем весь контейнер в провайдер и передаем значение текущей переменной*/

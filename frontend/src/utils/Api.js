@@ -1,8 +1,10 @@
 class Api {
     constructor({ address, headers }) {
       this._address = address;
-      this._headers = headers;
+      // this._headers = headers;
+     
     }
+    
     /*приватный метод проверки ответа сервера*/
     _handleResponse(response) {
       if (response.ok) return response.json();
@@ -13,16 +15,23 @@ class Api {
     getUserInfo() {
       return fetch(`${this._address}/users/me`, {
         method: 'GET',
-        headers: this._headers,
+        // headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => this._handleResponse(response));
     }
   
     /*метод закгрузки карточек с сервера  (GET)  */
-    getServerCards() {
+    getServerCards() { 
       return fetch(`${this._address}/cards`, {
         method: 'GET',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => this._handleResponse(response));
     }
@@ -31,7 +40,10 @@ class Api {
     patchUserInfo(data) {
       return fetch(`${this._address}/users/me`, {
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: data.name,
           about: data.about,
@@ -44,7 +56,10 @@ class Api {
     postCard(card) {
       return fetch(`${this._address}/cards`, {
         method: 'POST',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(card),
       })
         .then((response) => this._handleResponse(response));
@@ -54,7 +69,10 @@ class Api {
     deleteCard(cardId) {
       return fetch(`${this._address}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => this._handleResponse(response));
     }
@@ -64,7 +82,10 @@ class Api {
     putLike(cardId) {
       return fetch(`${this._address}/cards/${cardId}/likes`, {
         method: 'PUT',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => this._handleResponse(response));
     }
@@ -73,7 +94,10 @@ class Api {
     deleteLike(cardId) {
       return fetch(`${this._address}/cards/${cardId}/likes`, {
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => this._handleResponse(response));
     }
@@ -82,7 +106,10 @@ class Api {
     patchAvatar(avatarLink) {
       return fetch(`${this._address}/users/me/avatar`, {
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ avatar: avatarLink }),
       })
         .then((response) => this._handleResponse(response));
@@ -90,9 +117,9 @@ class Api {
   }
 /* созадем и экспортируем экземпляр API класса*/
   export const api = new Api({
-    address: "https://mesto.nomoreparties.co/v1/cohort-35",
-    headers: {
-      authorization: "59fa2368-57bc-421b-8a9b-bec049dce68e",
-      "Content-Type": "application/json",
-    },
+    address: "https://api.putilin.student.nomoreparties.sbs",
+    // headers: {
+    //    authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    //   "Content-Type": "application/json",
+    // },
   });
