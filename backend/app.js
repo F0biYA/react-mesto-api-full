@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, errors, Joi } = require('celebrate');
+require('dotenv').config();
 
 const app = express();
 const { PORT = 3000 } = process.env;

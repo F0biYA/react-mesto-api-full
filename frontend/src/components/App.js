@@ -44,6 +44,7 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleCardClick = (card) => setSelectedCard(card);
 
+const jwt = localStorage.getItem('jwt');
   /* проверяю токен при любых изенениях*/
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -61,7 +62,7 @@ function App() {
           console.log(err)
         });
     }
-  });
+  }, [history, jwt]);
 
   /*получаю карточки с сервера*/
   useEffect(() => {
@@ -93,9 +94,10 @@ function App() {
 
   /*функция изменения данных в профиле*/
   function handleUpdateUser(data) {
+    console.log(data)
     api.patchUserInfo(data)
       .then((userInfoObject) => {
-        setCurrentUser(userInfoObject)
+        setCurrentUser(userInfoObject);
         closeAllPopups();
       })
       .catch((err) => {
@@ -103,10 +105,11 @@ function App() {
       })
   }
   /*функция изменения аватара*/
-  function handleUpdateAvatar(data) {
-    api.patchAvatar(data.avatar)
+  function handleUpdateAvatar({avatar}) {
+    console.log({avatar});
+    api.patchAvatar(avatar)
       .then((userInfoObject) => {
-        setCurrentUser(userInfoObject)
+        setCurrentUser(userInfoObject);
         closeAllPopups();
       })
       .catch((err) => {
@@ -177,23 +180,23 @@ function App() {
     localStorage.removeItem('jwt');
   }
 
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            history.push('/');
-            setEmail(res.email);
-          }
-        })
-        .catch(err => {
-          setLoggedIn(false);
-          console.log(err)
-        });
-    }
-  });
+  // useEffect(() => {
+  //   const jwt = localStorage.getItem('jwt');
+  //   if (jwt) {
+  //     auth.getContent(jwt)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           history.push('/');
+  //           setEmail(res.email);
+  //         }
+  //       })
+  //       .catch(err => {
+  //         setLoggedIn(false);
+  //         console.log(err)
+  //       });
+  //   }
+  // });
 
   /*функция регистрации с всплывающим окном статуса регистрации, перенесно из Register */
   function handleRegister(email, password) {
