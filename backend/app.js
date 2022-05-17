@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, errors, Joi } = require('celebrate');
-require('dotenv').config();
-
+// require('dotenv').config();
+// не работает
+console.log();
 const app = express();
 const { PORT = 3000 } = process.env;
 /* подключаю mongo */
