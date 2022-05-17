@@ -89,9 +89,9 @@ module.exports.loginUser = (req, res, next) => {
 /* обновить профиль юзера (имя., описание ) */
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true })
-    .then((user) => res.send({ _id: user._id, name, about }))
-  // .then((user) => res.send(user))
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+    // .then((user) => res.send({ _id: user._id, name, about }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Некорректные данные'));
